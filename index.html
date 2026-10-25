@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fotogalereya</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h2>3D & Art Galereya</h2>
+        <button id="adminBtn" onclick="toggleAdminPanel()">Admin (Rasm yuklash)</button>
+    </header>
+
+    <!-- Admin Panel -->
+    <div id="adminPanel" class="admin-panel hidden">
+        <h3>Yangi rasm yuklash</h3>
+        <input type="password" id="adminPass" placeholder="Admin parolini kiriting">
+        <input type="file" id="imageInput" accept="image/*">
+        <button onclick="uploadImage()">Yuklash</button>
+    </div>
+
+    <!-- Rasmlar Avtomatik Chiqadigan Joy -->
+    <main class="gallery-container" id="gallery"></main>
+
+    <script src="script.js"></script>
+</body>
+</html>
