@@ -3,25 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fotogalereya</title>
+    <title>3D & Art Galereya</title>
     <link rel="stylesheet" href="style.css">
+    <!-- FontAwesome ikonkalari uchun -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <header>
-        <h2>3D & Art Galereya</h2>
-        <button id="adminBtn" onclick="toggleAdminPanel()">Admin (Rasm yuklash)</button>
-    </header>
 
-    <!-- Admin Panel -->
-    <div id="adminPanel" class="admin-panel hidden">
-        <h3>Yangi rasm yuklash</h3>
-        <input type="password" id="adminPass" placeholder="Admin parolini kiriting">
-        <input type="file" id="imageInput" accept="image/*">
-        <button onclick="uploadImage()">Yuklash</button>
+    <!-- START MENYUSI -->
+    <div id="startScreen" class="start-overlay">
+        <div class="start-container">
+            <h1 class="glow-title">XUSH KELIBSIZ</h1>
+            <button onclick="startGallery()" class="continue-btn">Davom etish</button>
+        </div>
     </div>
 
-    <!-- Rasmlar Avtomatik Chiqadigan Joy -->
-    <main class="gallery-container" id="gallery"></main>
+    <!-- ASOSIY SAYT -->
+    <div id="mainContent" class="main-content hidden-content">
+        
+        <!-- Chap tarafdagi Sidebar Panel -->
+        <aside id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <button id="menuToggleBtn" onclick="toggleSidebar()">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+            <div class="sidebar-menu">
+                <button class="admin-trigger-btn" onclick="openAdminModal()">
+                    <i class="fa-solid fa-key"></i>
+                    <span class="menu-text">Admin Panel</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Asosiy qism -->
+        <div class="content-wrapper">
+            <header>
+                <h2>3D & Art Galereya</h2>
+            </header>
+
+            <!-- Rasmlar Chiqadigan Joy -->
+            <main class="gallery-container" id="gallery"></main>
+        </div>
+    </div>
+
+    <!-- ADMIN MODAL BOX UI (Yangi Rasm Qo'shish) -->
+    <div id="adminModal" class="modal-overlay hidden">
+        <div class="modal-box">
+            <button class="close-modal-btn" onclick="closeAdminModal()"><i class="fa-solid fa-xmark"></i></button>
+           
+            <!-- Drag & Drop / Import Box -->
+            <div class="drop-zone" id="dropZone" onclick="document.getElementById('imageInput').click()">
+                <!-- Rasm yuklanganda chiqadigan kichik preview -->
+                <img id="previewImg" src="" alt="Preview" class="preview-img hidden">
+    
+                <!-- Dastlabki ko'rinadigan ikonka va matn -->
+                <div id="dropContent" class="drop-content">
+                    <i class="fa-solid fa-folder-open folder-icon"></i>
+                    <span id="dropText">Drag & drop or import</span>
+                </div>
+    
+                <input type="file" id="imageInput" accept="image/*" style="display: none;" onchange="handleFileSelect(this)">
+            </div>
+
+            <!-- Image Name Input -->
+            <div class="input-group">
+                <input type="text" id="imageNameInput" placeholder="Rasm nomi">
+            </div>
+
+            <!-- Description Input (Max 500 letters) -->
+            <div class="input-group">
+                <textarea id="imageDescInput" maxlength="500" placeholder="Describe the image"></textarea>
+            </div>
+
+            <!-- Admin Password & Publish Button -->
+            <div class="modal-footer">
+                <input type="password" id="adminPass" placeholder="Admin parol">
+                <button class="publish-btn" onclick="publishImage()">Publish</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- RASMNI KATTALASHTirib ko'rsatish uchun LIGHTBOX MODAL -->
+    <div id="lightboxModal" class="lightbox-overlay hidden" onclick="closeLightbox(event)">
+        <div class="lightbox-box" onclick="event.stopPropagation()">
+            <button class="close-modal-btn" onclick="closeLightboxForce()"><i class="fa-solid fa-xmark"></i></button>
+            
+            <div class="lightbox-top">
+                <img id="lightboxImg" src="" alt="Zoomed Image">
+                <div id="lightboxDesc" class="lightbox-desc collapsed" onclick="toggleDescription(this)">
+                    <!-- Description matni -->
+                </div>
+            </div>
+
+            <div class="lightbox-bottom">
+                <h3 id="lightboxTitle">Rasm nomi</h3>
+                <div class="future-tools">
+                    <!-- Kelgusidagi funksiyalar uchun joy -->
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
