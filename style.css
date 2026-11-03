@@ -5,19 +5,29 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Start Sahifasi Stili */
-.start-body {
-    background: radial-gradient(circle, #1a1e29 0%, #0a0c10 100%);
+body {
+    background-color: #0f111a;
+    color: #fff;
+    overflow-x: hidden;
+}
+
+/* Start Ekrani Overlay Qismi */
+.start-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
     height: 100vh;
+    background: radial-gradient(circle, #1a1e29 0%, #0a0c10 100%);
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
+    z-index: 9999;
+    transition: opacity 0.8s ease, visibility 0.8s ease;
 }
 
 .start-container {
     text-align: center;
-    transform: translateY(-50px);
 }
 
 .glow-title {
@@ -26,10 +36,7 @@
     color: #fff;
     text-transform: uppercase;
     letter-spacing: 3px;
-    text-shadow: 0 0 10px #00d2ff,
-                 0 0 20px #00d2ff,
-                 0 0 40px #00d2ff,
-                 0 0 80px #00d2ff;
+    text-shadow: 0 0 10px #00d2ff, 0 0 20px #00d2ff, 0 0 40px #00d2ff;
     margin-bottom: 40px;
 }
 
@@ -40,8 +47,9 @@
     font-weight: bold;
     color: #fff;
     background: linear-gradient(45deg, #00d2ff, #3a7bd5);
+    border: none;
     border-radius: 30px;
-    text-decoration: none;
+    cursor: pointer;
     box-shadow: 0 4px 15px rgba(0, 210, 255, 0.4);
     transition: all 0.3s ease;
 }
@@ -51,68 +59,119 @@
     box-shadow: 0 6px 25px rgba(0, 210, 255, 0.7);
 }
 
-/* Home Sahifasi Stili */
-body {
-    background-color: #0f111a;
+/* Fade-out effekti */
+.fade-out {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.main-content {
+    display: flex;
+    min-height: 100vh;
+    opacity: 1;
+    transition: opacity 0.8s ease;
+}
+
+.hidden-content {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* SIDEBAR PANEL (Chap tomonda doimiy qotib turishi uchun) */
+.sidebar {
+    width: 70px;
+    background-color: #161925;
+    border-right: 1px solid #222738;
+    transition: width 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    z-index: 100;
+    overflow: hidden;
+    position: sticky; /* Ekranda yopishib turishi uchun */
+    top: 0;           /* Yuqoridan 0 masofada qotadi */
+    height: 100vh;    /* Balandligi to'liq ekran bo'ladi */
+}
+
+.sidebar.expanded {
+    width: 220px;
+}
+
+.sidebar-header {
+    padding: 20px;
+}
+
+#menuToggleBtn {
+    background: none;
+    border: none;
+    color: #00d2ff;
+    font-size: 1.3rem;
+    cursor: pointer;
+}
+
+.sidebar-menu {
+    padding: 10px;
+}
+
+.admin-trigger-btn {
+    background: transparent;
+    border: none;
     color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s;
+    font-size: 1rem;
+}
+
+.admin-trigger-btn i {
+    color: #00d2ff;
+    font-size: 1.2rem;
+    min-width: 20px;
+}
+
+.admin-trigger-btn:hover {
+    background-color: rgba(0, 210, 255, 0.1);
+}
+
+.menu-text {
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.sidebar.expanded .menu-text {
+    opacity: 1;
+}
+
+/* Asosiy kontent qismi */
+.content-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 5%;
+    padding: 20px 40px;
     background-color: #161925;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    border-bottom: 1px solid #222738;
 }
 
-#adminBtn {
-    background: transparent;
-    border: 1px solid #00d2ff;
+header h2 {
+    font-size: 1.5rem;
     color: #00d2ff;
-    padding: 8px 16px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: 0.3s;
 }
 
-#adminBtn:hover {
-    background: #00d2ff;
-    color: #000;
-}
-
-/* Admin Panel */
-.admin-panel {
-    background: #1b1e2e;
-    padding: 20px;
-    margin: 20px 5%;
-    border-radius: 8px;
-    border: 1px solid #00d2ff;
-}
-
-.admin-panel input, .admin-panel button {
-    margin: 10px 5px 0 0;
-    padding: 8px 12px;
-    border-radius: 4px;
-    border: none;
-}
-
-.admin-panel button {
-    background: #00d2ff;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-.hidden {
-    display: none;
-}
-
-/* Galereya */
+/* Galereya Grid - Har bir qatorda aniq 4 tadan rasm chiqishi uchun */
 .gallery-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 25px;
-    padding: 40px 5%;
+    grid-template-columns: repeat(4, 1fr); /* Har doim 4 ta ustun */
+    gap: 20px;
+    padding: 40px;
+    align-items: start;
 }
 
 .card {
@@ -121,17 +180,19 @@ header {
     overflow: hidden;
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
     transition: transform 0.3s ease;
+    cursor: pointer;
 }
 
 .card:hover {
+    transform: translateY(-50px);
     transform: translateY(-8px);
 }
 
 .card img {
     width: 100%;
-    height: 220px;
-    object-fit: cover;
+    height: auto; /* Balandlikni avtomatik qilib, rasmning original proporsiyasini saqlaydi */
     display: block;
+    object-fit: contain; /* Rasm kesilib ketishining oldini oladi */
 }
 
 .card-info {
@@ -142,20 +203,291 @@ header {
 }
 
 .card-info h3 {
-    font-size: 1.1rem;
+    font-size: 1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 170px;
 }
 
 .download-btn {
     background-color: #25d366;
     color: #fff;
-    padding: 8px 15px;
+    padding: 6px 12px;
     border-radius: 6px;
     text-decoration: none;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-weight: bold;
     transition: 0.2s;
 }
 
 .download-btn:hover {
     background-color: #1ebd5a;
+}
+
+/* MODAL BOX UI (Admin Panel) */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.modal-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.modal-box {
+    background: #161925;
+    width: 450px;
+    padding: 30px;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(0, 210, 255, 0.1);
+    position: relative;
+    animation: fadeInModal 0.3s ease;
+}
+
+@keyframes fadeInModal {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.close-modal-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: #aaa;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.close-modal-btn:hover {
+    color: #fff;
+}
+
+/* Drag & Drop Zone */
+.drop-zone {
+    border: 2px dashed #444b6e;
+    border-radius: 10px;
+    height: 130px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: 0.2s;
+    background: #10121b;
+}
+
+.drop-zone:hover {
+    border-color: #00d2ff;
+}
+
+.folder-icon {
+    font-size: 2rem;
+    color: #00d2ff;
+    margin-bottom: 8px;
+}
+
+.drop-zone span {
+    color: #8c92a4;
+    font-size: 0.95rem;
+}
+
+/* Input Styles */
+.input-group {
+    margin-bottom: 15px;
+}
+
+.input-group input, .input-group textarea {
+    width: 100%;
+    background: #10121b;
+    border: 1px solid #2b3147;
+    border-radius: 8px;
+    padding: 12px 15px;
+    color: #fff;
+    font-size: 0.95rem;
+    outline: none;
+    transition: 0.2s;
+}
+
+.input-group input::placeholder, .input-group textarea::placeholder {
+    color: #5d647c;
+}
+
+.input-group input:hover, .input-group textarea:hover {
+    border-color: #3b4360;
+}
+
+.input-group input:focus, .input-group textarea:focus {
+    border-color: #25d366;
+    background: #121815;
+}
+
+.input-group textarea {
+    resize: none;
+    height: 90px;
+}
+
+/* Modal Footer */
+.modal-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.modal-footer input {
+    background: #10121b;
+    border: 1px solid #2b3147;
+    border-radius: 8px;
+    padding: 10px 12px;
+    color: #fff;
+    outline: none;
+    width: 150px;
+}
+
+.publish-btn {
+    background-color: #25d366;
+    color: #fff;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.publish-btn:hover {
+    background-color: #1ebd5a;
+}
+
+/* LIGHTBOX MODAL (Rasmni kattalashtirib ko'rish) */
+.lightbox-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.lightbox-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.lightbox-box {
+    background: #161925;
+    width: 700px;
+    max-width: 90%;
+    height: 520px;
+    border-radius: 14px;
+    padding: 25px;
+    position: relative;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    animation: fadeInModal 0.3s ease;
+}
+
+.lightbox-top {
+    display: flex;
+    gap: 20px;
+    height: 360px;
+}
+
+#lightboxImg {
+    width: 38%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.lightbox-desc {
+    flex: 1;
+    background: #10121b;
+    border-radius: 10px;
+    padding: 15px;
+    color: #ccc;
+    font-size: 0.95rem;
+    overflow-y: auto;
+    cursor: pointer;
+    border: 1px solid #222738;
+    transition: 0.2s;
+}
+
+.lightbox-desc.collapsed {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.lightbox-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #222738;
+    padding-top: 15px;
+}
+
+#lightboxTitle {
+    font-size: 1.2rem;
+    color: #fff;
+}
+
+.future-tools {
+    /* Kelgusidagi funksiyalar uchun joy */
+}
+
+/* Drag & Drop Ichidagi Preview Rasm */
+.drop-zone {
+    position: relative; /* Ichidagi mutlaq pozitsiyadagi rasm uchun */
+    overflow: hidden;
+}
+
+.drop-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+.preview-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: auto; /* Rasm proporsiyasini buzmasdan to'ldiradi */
+    background: #000;
+    border-radius: 8px;
+}
+
+/* Yashirish klassi */
+.hidden {
+    display: none !important;
 }
